@@ -1,32 +1,7 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
-import { createStore } from 'redux';
-
-// initialState
-const initialState = {
-  counter: 0,
-  showCounter: true,
-};
-
-// RTK
-
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState,
-  reducers: {
-    increment(state) {
-      state.counter++;
-    },
-    decrement(state) {
-      state.counter--;
-    },
-    incrementFive(state, action) {
-      state.counter = state.counter + action.payload;
-    },
-    toggleCounter(state) {
-      state.showCounter = !state.showCounter;
-    },
-  },
-});
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { createStore, combineReducers } from "redux";
+import authReducer from "../store/reducers/auth";
+import counterReducer from "../store/reducers/counter";
 
 // reducer
 // const counterReducer = (state = initialState, action) => {
@@ -60,12 +35,17 @@ const counterSlice = createSlice({
 //   }
 // };
 
-// store
 // const store = createStore(counterReducer);
-const store = configureStore({
-  reducer: counterSlice.reducer,
+
+const reducers = combineReducers({
+  counter: counterReducer,
+  auth: authReducer,
 });
 
-export const counterActions = counterSlice.actions;
+// store
+
+const store = configureStore({
+  reducer: reducers,
+});
 
 export default store;
